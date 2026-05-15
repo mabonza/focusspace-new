@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "programme_sessions",
+  "info": {
+    "singularName": "programme-session",
+    "pluralName": "programme-sessions",
+    "displayName": "Programme Session"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "startTime": { "type": "datetime" },
+    "endTime": { "type": "datetime" },
+    "venueRoom": { "type": "string" },
+    "sessionType": { "type": "string" },
+    "conference": {
+      "type": "relation", "relation": "manyToOne",
+      "target": "api::conference.conference", "inversedBy": "programmeSessions"
+    },
+    "speakers": {
+      "type": "relation", "relation": "manyToMany",
+      "target": "api::speaker.speaker"
+    }
+  }
+}

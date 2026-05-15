@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attendances",
+  "info": {
+    "singularName": "attendance",
+    "pluralName": "attendances",
+    "displayName": "Attendance"
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "qrCode": { "type": "string" },
+    "checkedInAt": { "type": "datetime" },
+    "attendanceStatus": {
+      "type": "enumeration",
+      "enum": ["registered", "checked-in", "absent"],
+      "default": "registered"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "conference": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::conference.conference"
+    },
+    "checkedInBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

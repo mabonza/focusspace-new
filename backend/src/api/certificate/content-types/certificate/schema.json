@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "certificates",
+  "info": {
+    "singularName": "certificate",
+    "pluralName": "certificates",
+    "displayName": "Certificate"
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "certificateType": {
+      "type": "enumeration",
+      "enum": ["attendee", "speaker", "presenter", "reviewer", "organizer"],
+      "required": true
+    },
+    "certificateId": { "type": "string", "unique": true },
+    "verificationCode": { "type": "string", "unique": true },
+    "issuedDate": { "type": "date" },
+    "pdfFile": { "type": "media", "multiple": false, "allowedTypes": ["files"] },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "conference": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::conference.conference"
+    }
+  }
+}

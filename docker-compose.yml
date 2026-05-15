@@ -1,0 +1,63 @@
+name: focus-space
+
+services:
+  # ── Strapi backend ────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: focus-space-backend
+    restart: unless-stopped
+    env_file: ./backend/.env
+    environment:
+      - TZ=Africa/Johannesburg
+    ports:
+      - "1337:1337"
+    volumes:
+      # Persist SQLite database and Strapi uploads across rebuilds
+      - strapi-db:/app/.tmp
+      - strapi-uploads:/app/public/uploads
+      # Live-reload config & custom code without full rebuild
+      - ./backend/src:/app/src
+      - ./backend/config:/app/config
+    networks:
+      - focus-space
+    healthcheck:
+      # Alpine's localhost resolves to ::1 (IPv6) but Strapi listens on 0.0.0.0 (IPv4)
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:1337/admin/init"]
+      interval: 20s
+      timeout: 10s
+      retries: 15
+      start_period: 180s
+
+  # ── React / Vite frontend (dev mode, hot-reload) ──────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: focus-space-frontend
+    restart: unless-stopped
+    environment:
+      - TZ=Africa/Johannesburg
+      # Browser calls localhost:1337 (backend port is host-mapped)
+      - VITE_STRAPI_URL=http://localhost:1337
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount entire frontend for hot-reload (all source + config files)
+      - ./frontend:/app
+      # Keep container's node_modules (do NOT mount host node_modules)
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - focus-space
+
+networks:
+  focus-space:
+    driver: bridge
+
+volumes:
+  strapi-db:
+  strapi-uploads:

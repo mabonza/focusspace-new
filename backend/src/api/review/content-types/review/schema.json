@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "singularName": "review",
+    "pluralName": "reviews",
+    "displayName": "Review"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "score": {
+      "type": "integer",
+      "min": 1,
+      "max": 10
+    },
+    "comments": {
+      "type": "text"
+    },
+    "recommendation": {
+      "type": "enumeration",
+      "enum": ["accept", "reject", "revise"],
+      "required": true
+    },
+    "submittedAt": {
+      "type": "datetime"
+    },
+    "reviewer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "abstract": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::abstract.abstract",
+      "inversedBy": "reviews"
+    }
+  }
+}

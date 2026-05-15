@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "Payment"
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "amount": { "type": "decimal" },
+    "currency": { "type": "string", "default": "USD" },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["eft", "bank_transfer", "cash", "card", "mobile_money"],
+      "default": "eft"
+    },
+    "paymentReference": { "type": "string" },
+    "paymentProof": { "type": "media", "multiple": false, "allowedTypes": ["images", "files"] },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "under-review", "approved", "rejected"],
+      "default": "pending"
+    },
+    "verifiedAt": { "type": "datetime" },
+    "notes": { "type": "text" },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "registration": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::conference-registration.conference-registration"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::invoice.invoice"
+    },
+    "verifiedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

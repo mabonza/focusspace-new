@@ -1,0 +1,103 @@
+{
+  "kind": "collectionType",
+  "collectionName": "conference_registrations",
+  "info": {
+    "singularName": "conference-registration",
+    "pluralName": "conference-registrations",
+    "displayName": "Conference Registration"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "titlePrefix": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "institution": {
+      "type": "string"
+    },
+    "billingAddress1": {
+      "type": "string"
+    },
+    "billingAddress2": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "stateProvince": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "vatNumber": {
+      "type": "string"
+    },
+    "preconferenceAttendance": {
+      "type": "boolean",
+      "default": false
+    },
+    "abstractSubmission": {
+      "type": "boolean",
+      "default": false
+    },
+    "conferenceFee": {
+      "type": "decimal"
+    },
+    "preconferenceFee": {
+      "type": "decimal"
+    },
+    "totalFee": {
+      "type": "decimal"
+    },
+    "registrationType": {
+      "type": "enumeration",
+      "enum": ["in-person", "virtual", "hybrid"],
+      "default": "in-person"
+    },
+    "ticketCategory": {
+      "type": "enumeration",
+      "enum": ["standard", "student", "early-bird", "vip"],
+      "default": "standard"
+    },
+    "paymentStatus": {
+      "type": "enumeration",
+      "enum": ["pending", "paid", "failed", "refunded"],
+      "default": "pending"
+    },
+    "invoiceNumber": {
+      "type": "string"
+    },
+    "qrCode": {
+      "type": "string"
+    },
+    "attendanceStatus": {
+      "type": "enumeration",
+      "enum": ["registered", "attended", "no-show", "cancelled"],
+      "default": "registered"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "conference": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::conference.conference"
+    },
+    "invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::invoice.invoice",
+      "mappedBy": "registration"
+    }
+  }
+}

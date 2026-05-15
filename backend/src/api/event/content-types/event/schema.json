@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": "Individual conference events and sub-events"
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "slug": { "type": "uid", "targetField": "title", "required": true },
+    "type": {
+      "type": "enumeration",
+      "enum": ["conference", "summit", "pre-conference", "workshop", "webinar"],
+      "default": "conference"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["upcoming", "past"],
+      "default": "upcoming"
+    },
+    "shortDescription": { "type": "text" },
+    "description": { "type": "richtext" },
+    "startDate": { "type": "datetime" },
+    "endDate": { "type": "datetime" },
+    "location": { "type": "string" },
+    "venue": { "type": "string" },
+    "image": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "bannerImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "registrationUrl": { "type": "string" },
+    "conference": {
+      "type": "relation", "relation": "manyToOne",
+      "target": "api::conference.conference", "inversedBy": "events"
+    }
+  }
+}
