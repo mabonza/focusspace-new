@@ -1,0 +1,1 @@
+import{iu as l,bS as p,ip as d,gH as f}from"./strapi-CvDz8Mh2.js";const x=(o={},r)=>{const{locale:t}=l(),s=p(t,{sensitivity:"base"}),{data:e,error:a,isError:n,isLoading:i,refetch:c}=d(o,r);return{roles:f.useMemo(()=>[...e??[]].sort((m,u)=>s.compare(m.name,u.name)),[e,s]),error:a,isError:n,isLoading:i,refetch:c}};export{x as u};

@@ -10,15 +10,14 @@ frontend/.env.local
 node_modules/
 **/node_modules/
 
-# Build output
-dist/
-build/
+# Build output (frontend only)
+frontend/dist/
+frontend/build/
 .output/
-.cache/
 
-# Strapi generated
+# Strapi cache only (dist is committed so server skips the build)
+backend/.cache/
 backend/.tmp/
-backend/build/
 backend/.strapi/
 
 # Docker volumes (local data)
