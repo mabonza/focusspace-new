@@ -1,47 +1,46 @@
 name: focus-space-prod
 
-# Production overrides — use with:
-#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-#
-# Or standalone (everything self-contained):
-#   docker compose -f docker-compose.prod.yml up -d
+# Production deployment
+# Usage:
+#   docker compose -f docker-compose.prod.yml up -d --build
 
 services:
-  # ── PostgreSQL database ───────────────────────────────────
+  # ── MySQL database ────────────────────────────────────────
   db:
-    image: postgres:16-alpine
+    image: mysql:8.0
     container_name: focus-space-db
     restart: always
     environment:
-      POSTGRES_DB: ${DATABASE_NAME:-focusspace}
-      POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+      MYSQL_DATABASE:      ${DATABASE_NAME:-focusspace}
+      MYSQL_USER:          ${DATABASE_USERNAME:-strapi}
+      MYSQL_PASSWORD:      ${DATABASE_PASSWORD:-strapi}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD:-rootpassword}
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - mysql-data:/var/lib/mysql
     networks:
       - focus-space
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-strapi}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_ROOT_PASSWORD:-rootpassword}"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
-  # ── Strapi backend (production) ───────────────────────────
+  # ── Strapi backend (production build) ────────────────────
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: focus-space-backend
     restart: always
-    env_file: ./backend/.env
+    env_file: ./backend/.env.production
     environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_NAME: ${DATABASE_NAME:-focusspace}
+      NODE_ENV:          production
+      DATABASE_CLIENT:   mysql
+      DATABASE_HOST:     db
+      DATABASE_PORT:     3306
+      DATABASE_NAME:     ${DATABASE_NAME:-focusspace}
       DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-strapi}
-      NODE_ENV: production
     ports:
       - "1337:1337"
     volumes:
@@ -51,7 +50,6 @@ services:
         condition: service_healthy
     networks:
       - focus-space
-    command: ["npm", "run", "start"]
 
   # ── React frontend (nginx, production build) ──────────────
   frontend:
@@ -59,7 +57,6 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # In prod, the browser talks to the backend via its public URL
         VITE_STRAPI_URL: ${VITE_STRAPI_URL:-http://localhost:1337}
     container_name: focus-space-frontend
     restart: always
@@ -75,5 +72,5 @@ networks:
     driver: bridge
 
 volumes:
-  pg-data:
+  mysql-data:
   strapi-uploads:

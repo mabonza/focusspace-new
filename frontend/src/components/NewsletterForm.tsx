@@ -1,20 +1,35 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, CheckCircle } from 'lucide-react'
+import { Mail, CheckCircle, AlertCircle } from 'lucide-react'
 import Button from './Button'
+
+const BASE_URL = (import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337').replace(/\/$/, '')
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 800))
-    setSubmitted(true)
-    setLoading(false)
+    setError('')
+    try {
+      const res = await fetch(`${BASE_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json?.error?.message ?? 'Subscription failed')
+      setSubmitted(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -43,19 +58,26 @@ export default function NewsletterForm() {
               <p className="font-medium">You're subscribed! We'll be in touch soon.</p>
             </motion.div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
-                required
-                className="flex-1 px-4 py-3 bg-charcoal-light border border-gray-600 text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-gold text-sm"
-              />
-              <Button type="submit" variant="gold" disabled={loading}>
-                {loading ? 'Subscribing…' : 'Subscribe'}
-              </Button>
-            </form>
+            <>
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  required
+                  className="flex-1 px-4 py-3 bg-charcoal-light border border-gray-600 text-white placeholder-gray-500 rounded-sm focus:outline-none focus:border-gold text-sm"
+                />
+                <Button type="submit" variant="gold" disabled={loading}>
+                  {loading ? 'Subscribing…' : 'Subscribe'}
+                </Button>
+              </form>
+              {error && (
+                <div className="flex items-center justify-center gap-2 text-red-400 text-sm mt-3">
+                  <AlertCircle size={15} /> {error}
+                </div>
+              )}
+            </>
           )}
 
           <p className="text-gray-600 text-xs mt-5">
