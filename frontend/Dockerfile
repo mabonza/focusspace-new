@@ -6,7 +6,7 @@ ARG VITE_STRAPI_URL=http://localhost:1337
 ENV VITE_STRAPI_URL=$VITE_STRAPI_URL
 
 COPY package*.json ./
-RUN npm ci --prefer-offline
+RUN npm install
 
 COPY . .
 RUN npm run build
