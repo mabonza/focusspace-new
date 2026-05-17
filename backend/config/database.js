@@ -8,7 +8,7 @@ module.exports = ({ env }) => {
   if (client === 'mysql' || client === 'mysql2') {
     return {
       connection: {
-        client: 'mysql2',
+        client: 'mysql',
         connection: {
           host:     env('DATABASE_HOST', '127.0.0.1'),
           port:     env.int('DATABASE_PORT', 3306),
