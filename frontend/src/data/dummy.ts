@@ -30,7 +30,7 @@ export const dummyConferences: Conference[] = [
     endDate: '2024-06-12',
     venue: 'Kenyatta International Convention Centre',
     location: 'Nairobi, Kenya',
-    status: 'completed',
+    conferenceStatus: 'completed',
     featured: false,
     registrationOpen: false,
     abstractSubmissionOpen: false,

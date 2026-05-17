@@ -33,7 +33,7 @@ export default function MyConferences() {
         <div key={conf.id} className="bg-white border border-gray-100 rounded-sm p-5 flex flex-col sm:flex-row gap-4 hover:border-primary/20 transition-colors">
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <StatusBadge status={conf.status} />
+              <StatusBadge status={conf.conferenceStatus} />
               {conf.registrationOpen && (
                 <span className="text-xs font-semibold bg-green-50 text-green-700 px-2 py-0.5 rounded-full">
                   Registration Open
