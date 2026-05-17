@@ -63,7 +63,7 @@ export default function Home() {
         <SkeletonHeroSection />
       ) : (
         <Hero
-          badge={featured ? `${featured.status === 'upcoming' ? 'Upcoming' : 'Featured'} — ${featured.year ?? ''}` : 'Upcoming — September 2025'}
+          badge={featured ? `${featured.conferenceStatus === 'upcoming' ? 'Upcoming' : 'Featured'} — ${featured.year ?? ''}` : 'Upcoming — September 2025'}
           subtitle="Focus Space Conference Platform"
           title={featured?.theme ?? 'Advancing Research. Shaping Policy. Connecting Africa.'}
           description={
@@ -100,7 +100,7 @@ export default function Home() {
       </div>
 
       {/* Countdown — only shown when featured conference is upcoming */}
-      {featured?.startDate && featured.status === 'upcoming' && (
+      {featured?.startDate && featured.conferenceStatus === 'upcoming' && (
         <div className="bg-charcoal py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">

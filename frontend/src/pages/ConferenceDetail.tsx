@@ -118,7 +118,7 @@ export default function ConferenceDetail() {
     )
   }
 
-  const isActive = conference.status === 'upcoming' || conference.status === 'active'
+  const isActive = conference.conferenceStatus === 'upcoming' || conference.conferenceStatus === 'active'
   const imageUrl = getImageUrl(
     conference.bannerImage ?? conference.heroImage,
     'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1800&auto=format&fit=crop'
@@ -146,7 +146,7 @@ export default function ConferenceDetail() {
           </Link>
           <div className="flex flex-wrap gap-2 mb-4">
             <span className={`text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-sm ${isActive ? 'bg-green-600 text-white' : 'bg-gray-600 text-white'}`}>
-              {conference.status}
+              {conference.conferenceStatus}
             </span>
             {conference.year && (
               <span className="text-xs font-semibold uppercase tracking-widest bg-primary px-3 py-1 text-white rounded-sm">

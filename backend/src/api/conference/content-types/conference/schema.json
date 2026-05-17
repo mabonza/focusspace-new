@@ -21,7 +21,7 @@
     "location": { "type": "string" },
     "heroImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
     "bannerImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
-    "status": {
+    "conferenceStatus": {
       "type": "enumeration",
       "enum": ["draft", "upcoming", "active", "completed", "archived"],
       "default": "draft"

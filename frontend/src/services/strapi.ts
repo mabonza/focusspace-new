@@ -48,10 +48,10 @@ export async function getConferences(): Promise<Conference[]> {
 
 export async function getFeaturedConference(): Promise<Conference | null> {
   const data = await fetchStrapi<Conference[]>(
-    '/conferences?filters[featured][$eq]=true&filters[status][$ne]=draft&populate[0]=heroImage&populate[1]=bannerImage&pagination[pageSize]=1'
+    '/conferences?filters[featured][$eq]=true&filters[conferenceStatus][$ne]=draft&populate[0]=heroImage&populate[1]=bannerImage&pagination[pageSize]=1'
   )
   if (data && data.length > 0) return data[0]
-  return dummyConferences.find((c) => c.status === 'upcoming') ?? dummyConferences[0] ?? null
+  return dummyConferences.find((c) => c.conferenceStatus === 'upcoming') ?? dummyConferences[0] ?? null
 }
 
 export async function getConferenceBySlug(slug: string): Promise<Conference | null> {

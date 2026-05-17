@@ -61,7 +61,7 @@ export interface Conference {
   location?: string
   heroImage?: StrapiMedia
   bannerImage?: StrapiMedia
-  status: 'draft' | 'upcoming' | 'active' | 'completed' | 'archived'
+  conferenceStatus: 'draft' | 'upcoming' | 'active' | 'completed' | 'archived'
   featured: boolean
   registrationOpen: boolean
   abstractSubmissionOpen: boolean

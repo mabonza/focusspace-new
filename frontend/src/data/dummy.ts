@@ -13,7 +13,7 @@ export const dummyConferences: Conference[] = [
     endDate: '2025-09-18',
     venue: 'Sandton Convention Centre',
     location: 'Johannesburg, South Africa',
-    status: 'upcoming',
+    conferenceStatus: 'upcoming',
     featured: true,
     registrationOpen: true,
     abstractSubmissionOpen: true,
