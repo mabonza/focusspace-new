@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Users, BookOpen, Globe, Award, Play, ArrowRight, CheckCircle } from 'lucide-react'
+import { Users, BookOpen, Globe, Award, Play, ArrowRight, CheckCircle, Calendar, MapPin } from 'lucide-react'
+import { format } from 'date-fns'
 import Hero from '../components/Hero'
 import SectionTitle from '../components/SectionTitle'
 import EventCard from '../components/EventCard'
@@ -10,8 +11,8 @@ import Button from '../components/Button'
 import CountdownTimer from '../components/CountdownTimer'
 import { SkeletonEventCard, SkeletonHeroSection } from '../components/Skeleton'
 import { useSEO } from '../hooks/useSEO'
-import { getUpcomingEvents, getPastEvents, getFeaturedConference, getStrapiMediaUrl } from '../services/strapi'
-import type { Event, Conference } from '../types'
+import { getUpcomingConferences, getPastEvents, getFeaturedConference, getStrapiMediaUrl, getImageUrl } from '../services/strapi'
+import type { Conference } from '../types'
 
 const stats = [
   { icon: Users, label: 'Delegates', value: '3,000+' },
@@ -36,8 +37,8 @@ export default function Home() {
 
   const [featured, setFeatured] = useState<Conference | null>(null)
   const [heroLoading, setHeroLoading] = useState(true)
-  const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([])
-  const [pastEvents, setPastEvents] = useState<Event[]>([])
+  const [upcomingConferences, setUpcomingConferences] = useState<Conference[]>([])
+  const [pastEvents, setPastEvents] = useState<import('../types').Event[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -45,8 +46,8 @@ export default function Home() {
       setFeatured(conf)
       setHeroLoading(false)
     })
-    Promise.all([getUpcomingEvents(), getPastEvents()]).then(([upcoming, past]) => {
-      setUpcomingEvents(upcoming)
+    Promise.all([getUpcomingConferences(), getPastEvents()]).then(([upcoming, past]) => {
+      setUpcomingConferences(upcoming)
       setPastEvents(past.slice(0, 3))
       setLoading(false)
     })
@@ -177,7 +178,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Events */}
+      {/* Upcoming Conferences */}
       <section className="section-padding bg-white">
         <div className="container-max">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
@@ -190,9 +191,71 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((n) => <SkeletonEventCard key={n} />)}
             </div>
+          ) : upcomingConferences.length === 0 ? (
+            <p className="text-gray-400 text-center py-10">No upcoming conferences at this time.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {upcomingEvents.map((event, i) => <EventCard key={event.id} event={event} index={i} />)}
+              {upcomingConferences.map((conf, i) => (
+                <motion.div
+                  key={conf.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="card rounded-sm overflow-hidden flex flex-col group"
+                >
+                  <div className="relative overflow-hidden h-48 bg-gray-100">
+                    <img
+                      src={getImageUrl(conf.bannerImage ?? conf.heroImage, `https://picsum.photos/seed/${conf.id + 20}/800/400`)}
+                      alt={conf.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute top-3 left-3 text-xs font-semibold uppercase tracking-wide px-3 py-1 rounded-sm bg-primary text-white">
+                      Conference
+                    </span>
+                  </div>
+                  <div className="p-5 flex flex-col flex-1">
+                    <h3 className="font-serif font-bold text-charcoal text-lg leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                      {conf.title}
+                    </h3>
+                    <div className="space-y-2 mb-4">
+                      {conf.startDate && (
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <Calendar size={14} className="text-gold shrink-0" />
+                          <span>{format(new Date(conf.startDate), 'dd MMM yyyy')}</span>
+                          {conf.endDate && conf.endDate !== conf.startDate && (
+                            <span>– {format(new Date(conf.endDate), 'dd MMM yyyy')}</span>
+                          )}
+                        </div>
+                      )}
+                      {(conf.venue || conf.location) && (
+                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                          <MapPin size={14} className="text-gold shrink-0" />
+                          <span className="truncate">{[conf.venue, conf.location].filter(Boolean).join(', ')}</span>
+                        </div>
+                      )}
+                    </div>
+                    {conf.theme && (
+                      <p className="text-sm text-gray-600 leading-relaxed mb-5 line-clamp-3 flex-1 italic">{conf.theme}</p>
+                    )}
+                    {conf.startDate && (
+                      <div className="mb-5">
+                        <p className="text-xs text-gray-400 uppercase tracking-widest mb-2 font-medium">Conference starts in</p>
+                        <CountdownTimer targetDate={conf.startDate} compact />
+                      </div>
+                    )}
+                    <div className="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+                      <Link
+                        to={`/conferences/${conf.slug}`}
+                        className="flex items-center justify-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-600 transition-colors flex-1 btn-outline"
+                      >
+                        View Details <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           )}
         </div>

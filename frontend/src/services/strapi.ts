@@ -54,6 +54,13 @@ export async function getFeaturedConference(): Promise<Conference | null> {
   return dummyConferences.find((c) => c.conferenceStatus === 'upcoming') ?? dummyConferences[0] ?? null
 }
 
+export async function getUpcomingConferences(): Promise<Conference[]> {
+  const data = await fetchStrapi<Conference[]>(
+    '/conferences?filters[conferenceStatus][$in][0]=upcoming&filters[conferenceStatus][$in][1]=active&populate[0]=heroImage&populate[1]=bannerImage&sort=startDate:asc&pagination[pageSize]=10'
+  )
+  return data ?? []
+}
+
 export async function getConferenceBySlug(slug: string): Promise<Conference | null> {
   const data = await fetchStrapi<Conference[]>(
     `/conferences?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[0]=heroImage&populate[1]=bannerImage&populate[2]=speakers&populate[3]=sponsors&populate[4]=programmeSessions&populate[5]=events&populate[6]=publications`
