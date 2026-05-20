@@ -10,6 +10,7 @@ import CountdownTimer from '../components/CountdownTimer'
 import Button from '../components/Button'
 import RegistrationModal from '../components/RegistrationModal'
 import { SkeletonSection } from '../components/Skeleton'
+import MarkdownRenderer from '../components/MarkdownRenderer'
 import { useSEO } from '../hooks/useSEO'
 import { getConferenceBySlug, getEventBySlug, getImageUrl } from '../services/strapi'
 import { checkRegistration } from '../services/registrations'
@@ -274,6 +275,16 @@ export default function ConferenceDetail() {
                 )}
               </div>
             </section>
+
+            {/* Description / Call for Abstracts */}
+            {conference.description && (
+              <section>
+                <MarkdownRenderer
+                  content={conference.description}
+                  className="text-gray-600 leading-relaxed text-sm"
+                />
+              </section>
+            )}
 
             {/* Background and Context */}
             {conference.backgroundContext && (
