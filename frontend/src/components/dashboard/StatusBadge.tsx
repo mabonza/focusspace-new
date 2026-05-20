@@ -32,6 +32,7 @@ interface StatusBadgeProps {
 }
 
 export default function StatusBadge({ status, className = '' }: StatusBadgeProps) {
+  if (!status) return null
   const cfg = configs[status] ?? { bg: 'bg-gray-100', text: 'text-gray-600', dot: 'bg-gray-400' }
   const label = status.replace(/-/g, ' ')
   return (
