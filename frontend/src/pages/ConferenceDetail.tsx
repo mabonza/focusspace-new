@@ -219,7 +219,7 @@ export default function ConferenceDetail() {
           {isActive && conference.startDate && (
             <div className="flex items-center gap-3 text-white">
               <span className="text-xs text-white/60 uppercase tracking-widest hidden sm:block">Starts in</span>
-              <CountdownTimer targetDate={conference.startDate} compact />
+              <CountdownTimer targetDate={conference.startDate} compact variant="light" />
             </div>
           )}
         </div>
