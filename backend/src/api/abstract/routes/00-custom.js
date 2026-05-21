@@ -30,7 +30,7 @@ module.exports = {
       method: 'POST',
       path: '/abstracts/test-email',
       handler: 'abstract.testEmail',
-      config: { policies: [] },
+      config: { auth: false, policies: [] },
     },
   ],
 }
