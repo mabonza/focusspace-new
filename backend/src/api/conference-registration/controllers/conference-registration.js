@@ -83,18 +83,19 @@ module.exports = factories.createCoreController(
       const firstName = fullUser?.firstName || fullUser?.email?.split('@')[0] || 'Delegate'
       const conferenceTitle = conf?.title ?? 'Focus Conference'
 
-      await sendTemplateEmail(strapi, 'registration-confirmation', fullUser?.email ?? user.email, {
+      const recipientEmail = fullUser?.email ?? user.email
+      sendTemplateEmail(strapi, 'registration-confirmation', recipientEmail, {
         firstName,
         conference: conferenceTitle,
         invoiceNumber,
-      })
-      await sendTemplateEmail(strapi, 'invoice-issued', fullUser?.email ?? user.email, {
+      }).catch(() => null)
+      sendTemplateEmail(strapi, 'invoice-issued', recipientEmail, {
         firstName,
         conference: conferenceTitle,
         invoiceNumber,
         currency: 'ZAR',
         amount: totalFee.toFixed(2),
-      })
+      }).catch(() => null)
 
       return ctx.send({ data: registration })
     },

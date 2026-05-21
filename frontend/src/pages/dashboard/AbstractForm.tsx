@@ -100,7 +100,7 @@ export default function AbstractForm() {
         if (ab.documentUpload) {
           setExistingFile({
             name: (ab.documentUpload as any).name ?? 'Uploaded document',
-            url: `${BASE_URL}${(ab.documentUpload as any).url}`,
+            url: (ab.documentUpload as any).url?.startsWith('http') ? (ab.documentUpload as any).url : `${BASE_URL}${(ab.documentUpload as any).url}`,
           })
         }
       }

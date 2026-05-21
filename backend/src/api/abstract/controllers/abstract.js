@@ -57,11 +57,11 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
       })
       if (authorUser?.email) {
         const dashboardUrl = `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/dashboard/abstracts`
-        await sendTemplateEmail(strapi, 'abstract-submitted', authorUser.email, {
+        sendTemplateEmail(strapi, 'abstract-submitted', authorUser.email, {
           firstName: authorUser.firstName || authorUser.email.split('@')[0],
           title: abstract.title,
           dashboardUrl,
-        })
+        }).catch(() => null)
         await strapi.db.query('api::notification.notification').create({
           data: {
             title: 'Abstract Submitted',
@@ -127,22 +127,22 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
       let notifMessage = null
 
       if (newStatus === 'submitted' && oldStatus === 'draft') {
-        await sendTemplateEmail(strapi, 'abstract-submitted', to, { firstName, title, dashboardUrl })
+        sendTemplateEmail(strapi, 'abstract-submitted', to, { firstName, title, dashboardUrl }).catch(() => null)
         notifTitle = 'Abstract Submitted'
         notifMessage = `Your abstract "${title}" has been received and is under review.`
       } else if (newStatus === 'accepted') {
-        await sendTemplateEmail(strapi, 'abstract-accepted', to, { firstName, title, dashboardUrl })
+        sendTemplateEmail(strapi, 'abstract-accepted', to, { firstName, title, dashboardUrl }).catch(() => null)
         notifTitle = 'Abstract Accepted'
         notifMessage = `Congratulations! Your abstract "${title}" has been accepted.`
       } else if (newStatus === 'rejected') {
-        await sendTemplateEmail(strapi, 'abstract-rejected', to, { firstName, title, dashboardUrl })
+        sendTemplateEmail(strapi, 'abstract-rejected', to, { firstName, title, dashboardUrl }).catch(() => null)
         notifTitle = 'Abstract Not Accepted'
         notifMessage = `Your abstract "${title}" was not accepted at this time.`
       } else if (newStatus === 'revision-requested') {
-        await sendTemplateEmail(strapi, 'abstract-revision-requested', to, {
+        sendTemplateEmail(strapi, 'abstract-revision-requested', to, {
           firstName, title, dashboardUrl,
           comments: body.adminComments || body.reviewerComments || '',
-        })
+        }).catch(() => null)
         notifTitle = 'Revision Requested'
         notifMessage = `Your abstract "${title}" requires revisions before it can be accepted.`
       }
