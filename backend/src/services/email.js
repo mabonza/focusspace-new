@@ -295,6 +295,8 @@ async function sendTemplateEmail(strapi, templateKey, to, data) {
     const senderName = match ? match[1].trim() || 'Focus Space' : 'Focus Space'
     const senderEmail = match ? match[2] : rawFrom
 
+    strapi.log.info(`[Email] Calling Brevo — from: ${senderEmail}, to: ${to}, key: ${apiKey.slice(0, 20)}...`)
+
     const res = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: { 'api-key': apiKey, 'Content-Type': 'application/json' },
@@ -307,9 +309,11 @@ async function sendTemplateEmail(strapi, templateKey, to, data) {
       }),
     })
 
+    const responseText = await res.text()
+    strapi.log.info(`[Email] Brevo response ${res.status}: ${responseText.slice(0, 300)}`)
+
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      throw new Error(err.message || `HTTP ${res.status}`)
+      throw new Error(`HTTP ${res.status}: ${responseText.slice(0, 200)}`)
     }
 
     strapi.log.info(`[Email] Sent "${templateKey}" to ${to}`)
