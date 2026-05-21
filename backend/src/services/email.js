@@ -282,14 +282,37 @@ async function sendTemplateEmail(strapi, templateKey, to, data) {
   }
 
   const { subject, text, html } = template(data)
+  const apiKey = process.env.BREVO_API_KEY
+
+  if (!apiKey) {
+    strapi.log.warn(`[Email] BREVO_API_KEY not set — email not sent`)
+    return
+  }
 
   try {
-    if (strapi.plugins['email']) {
-      await strapi.plugins['email'].services.email.send({ to, subject, text, html })
-      strapi.log.info(`[Email] Sent "${templateKey}" to ${to}`)
-    } else {
-      strapi.log.info(`[Email:DEV] To: ${to} | Template: ${templateKey} | Subject: ${subject}`)
+    const rawFrom = process.env.SMTP_FROM || process.env.SMTP_USER || 'noreply@focusspace.co.za'
+    const match = rawFrom.match(/^(.*?)\s*<(.+)>$/)
+    const senderName = match ? match[1].trim() || 'Focus Space' : 'Focus Space'
+    const senderEmail = match ? match[2] : rawFrom
+
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender: { name: senderName, email: senderEmail },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+        textContent: text,
+      }),
+    })
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}))
+      throw new Error(err.message || `HTTP ${res.status}`)
     }
+
+    strapi.log.info(`[Email] Sent "${templateKey}" to ${to}`)
   } catch (err) {
     strapi.log.warn(`[Email] Failed to send "${templateKey}" to ${to}: ${err.message}`)
   }
