@@ -38,7 +38,7 @@ module.exports = ({ env }) => ({
         tls: { rejectUnauthorized: false },
       },
       settings: {
-        defaultFrom: env('SMTP_FROM', 'Focus Space <noreply@focusspace.co.za>'),
+        defaultFrom: env('SMTP_FROM') || env('SMTP_USER') || 'Focus Space <noreply@focusspace.co.za>',
         defaultReplyTo: env('SMTP_REPLY_TO', 'focusconference@mut.ac.za'),
       },
     },
