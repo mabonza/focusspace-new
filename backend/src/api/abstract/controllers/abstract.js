@@ -50,18 +50,20 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
     })
 
     // Send confirmation email when submitted directly
+    strapi.log.info(`[Abstract] Created id=${abstract.id} status="${data.status}" user=${user.id}`)
     if (data.status === 'submitted') {
       const authorUser = await strapi.db.query('plugin::users-permissions.user').findOne({
         where: { id: user.id },
         select: ['firstName', 'email'],
       })
+      strapi.log.info(`[Abstract] Email lookup for user ${user.id}: email=${authorUser?.email ?? 'NOT FOUND'}`)
       if (authorUser?.email) {
         const dashboardUrl = `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/dashboard/abstracts`
         sendTemplateEmail(strapi, 'abstract-submitted', authorUser.email, {
           firstName: authorUser.firstName || authorUser.email.split('@')[0],
           title: abstract.title,
           dashboardUrl,
-        }).catch(() => null)
+        }).catch((err) => strapi.log.warn(`[Abstract] Email send error: ${err.message}`))
         await strapi.db.query('api::notification.notification').create({
           data: {
             title: 'Abstract Submitted',
@@ -313,6 +315,22 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
       ctx.body = '﻿' + rows.join('\r\n')
     } catch (err) {
       return ctx.internalServerError(err.message)
+    }
+  },
+
+  // ── Send a test email to verify Brevo integration ────────────────────────
+  async testEmail(ctx) {
+    const to = ctx.request.body?.to
+    if (!to) return ctx.badRequest('to is required')
+    try {
+      await sendTemplateEmail(strapi, 'abstract-submitted', to, {
+        firstName: 'Test User',
+        title: 'Test Abstract Title',
+        dashboardUrl: `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/dashboard/abstracts`,
+      })
+      return ctx.send({ ok: true, message: `Test email sent to ${to}` })
+    } catch (err) {
+      return ctx.send({ ok: false, error: err.message })
     }
   },
 }))
