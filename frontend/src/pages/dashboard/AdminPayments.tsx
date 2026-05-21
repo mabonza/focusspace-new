@@ -143,7 +143,7 @@ export default function AdminPayments() {
                       <td className="px-4 py-3"><StatusBadge status={p.status} /></td>
                       <td className="px-4 py-3">
                         {proof?.url ? (
-                          <a href={`${API_URL}${proof.url}`} target="_blank" rel="noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1">
+                          <a href={proof.url.startsWith('http') ? proof.url : `${API_URL}${proof.url}`} target="_blank" rel="noreferrer" className="text-primary hover:underline text-xs flex items-center gap-1">
                             <Download size={12} /> View
                           </a>
                         ) : <span className="text-gray-400 text-xs">None</span>}

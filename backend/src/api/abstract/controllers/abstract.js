@@ -49,6 +49,31 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
       populate: ['conference', 'user'],
     })
 
+    // Send confirmation email when submitted directly
+    if (data.status === 'submitted') {
+      const authorUser = await strapi.db.query('plugin::users-permissions.user').findOne({
+        where: { id: user.id },
+        select: ['firstName', 'email'],
+      })
+      if (authorUser?.email) {
+        const dashboardUrl = `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/dashboard/abstracts`
+        await sendTemplateEmail(strapi, 'abstract-submitted', authorUser.email, {
+          firstName: authorUser.firstName || authorUser.email.split('@')[0],
+          title: abstract.title,
+          dashboardUrl,
+        })
+        await strapi.db.query('api::notification.notification').create({
+          data: {
+            title: 'Abstract Submitted',
+            message: `Your abstract "${abstract.title}" has been received and is under review.`,
+            type: 'abstract',
+            readStatus: false,
+            user: user.id,
+          },
+        }).catch(() => null)
+      }
+    }
+
     return { data: abstract }
   },
 
