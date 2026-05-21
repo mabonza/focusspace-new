@@ -8,9 +8,6 @@ const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'Conferences', to: '/conferences' },
   { label: 'Past Events', to: '/past-events' },
-  { label: 'Speakers', to: '/speakers' },
-  { label: 'Programme', to: '/programme' },
-  { label: 'Sponsors', to: '/sponsors' },
   { label: 'Publications', to: '/publications' },
   { label: 'Contact', to: '/contact' },
 ]
