@@ -5,10 +5,10 @@ WORKDIR /app
 ARG VITE_STRAPI_URL=http://localhost:1337
 ENV VITE_STRAPI_URL=$VITE_STRAPI_URL
 
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install --no-audit --no-fund
 
-COPY frontend/ .
+COPY . .
 RUN npm run build
 
 # ── Stage 2: serve ──────────────────────────────────────────
