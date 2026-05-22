@@ -318,19 +318,4 @@ module.exports = factories.createCoreController('api::abstract.abstract', ({ str
     }
   },
 
-  // ── Send a test email to verify Brevo integration ────────────────────────
-  async testEmail(ctx) {
-    const to = ctx.request.body?.to
-    if (!to) return ctx.badRequest('to is required')
-    try {
-      await sendTemplateEmail(strapi, 'abstract-submitted', to, {
-        firstName: 'Test User',
-        title: 'Test Abstract Title',
-        dashboardUrl: `${process.env.FRONTEND_URL ?? 'http://localhost:3000'}/dashboard/abstracts`,
-      })
-      return ctx.send({ ok: true, message: `Test email sent to ${to}` })
-    } catch (err) {
-      return ctx.send({ ok: false, error: err.message })
-    }
-  },
 }))

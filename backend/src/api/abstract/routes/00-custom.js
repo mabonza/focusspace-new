@@ -26,11 +26,5 @@ module.exports = {
       handler: 'abstract.assignReviewer',
       config: { policies: [] },
     },
-    {
-      method: 'POST',
-      path: '/abstracts/test-email',
-      handler: 'abstract.testEmail',
-      config: { auth: false, policies: [] },
-    },
   ],
 }

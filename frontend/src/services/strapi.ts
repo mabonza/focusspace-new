@@ -63,7 +63,7 @@ export async function getUpcomingConferences(): Promise<Conference[]> {
 
 export async function getConferenceBySlug(slug: string): Promise<Conference | null> {
   const data = await fetchStrapi<Conference[]>(
-    `/conferences?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[0]=heroImage&populate[1]=bannerImage&populate[2]=speakers&populate[3]=sponsors&populate[4]=programmeSessions&populate[5]=events&populate[6]=publications`
+    `/conferences?filters[slug][$eq]=${encodeURIComponent(slug)}&populate[heroImage]=true&populate[bannerImage]=true&populate[speakers]=true&populate[sponsors][populate][logo]=true&populate[programmeSessions]=true&populate[events]=true&populate[publications]=true`
   )
   if (data && data.length > 0) return data[0]
   return dummyConferences.find((c) => c.slug === slug) ?? null
