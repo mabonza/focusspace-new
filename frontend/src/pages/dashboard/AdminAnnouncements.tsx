@@ -49,7 +49,7 @@ export default function AdminAnnouncements() {
   const loadUsers = async () => {
     if (usersLoaded || !token) return
     try {
-      const res = await fetch(`${BASE_URL}/api/admin-users/list`, {
+      const res = await fetch(`${BASE_URL}/api/user-management/users?pageSize=500`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (res.ok) {
