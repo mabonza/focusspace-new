@@ -66,7 +66,7 @@ export default function Footer() {
               ].map((item) => (
                 <li key={item}>
                   <a href="#" className="hover:text-gold transition-colors text-gray-400 cursor-not-allowed">
-                    {item} <span className="text-xs text-gray-600">(coming soon)</span>
+                    {item} <span className="text-xs text-gray-600"></span>
                   </a>
                 </li>
               ))}
