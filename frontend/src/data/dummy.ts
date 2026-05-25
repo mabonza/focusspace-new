@@ -101,7 +101,7 @@ export const dummyPastEvents: Event[] = [
     endDate: '2026-03-27',
     location: 'Durban, South Africa',
     venue: 'Durban International Convention Centre (ICC)',
-    image: { id: 0, url: '/teaching with Tech-summit.jpg' },
+    image: { id: 0, url: '/teaching-with-tech-summit.jpg' },
   },
   {
     id: 11,
