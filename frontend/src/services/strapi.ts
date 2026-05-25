@@ -14,6 +14,8 @@ const BASE_URL = (import.meta.env.VITE_STRAPI_URL || 'http://localhost:1337').re
 export function getStrapiMediaUrl(media?: { url?: string } | null): string | undefined {
   if (!media?.url) return undefined
   if (media.url.startsWith('http')) return media.url
+  // Strapi media lives under /uploads; other root-relative paths are local public assets
+  if (!media.url.startsWith('/uploads')) return media.url
   return `${BASE_URL}${media.url}`
 }
 
