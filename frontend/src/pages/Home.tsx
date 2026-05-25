@@ -292,16 +292,18 @@ export default function Home() {
             viewport={{ once: true }}
             className="relative max-w-4xl mx-auto rounded-sm overflow-hidden bg-black aspect-video"
           >
-            <img
-              src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&auto=format&fit=crop"
-              alt="Conference highlights"
-              loading="lazy"
-              className="w-full h-full object-cover opacity-60"
+            <video
+              src="/focus-video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button className="w-20 h-20 bg-white rounded-full flex items-center justify-center hover:bg-gold hover:text-white transition-colors group shadow-xl">
-                <Play size={28} className="text-primary group-hover:text-white ml-1 transition-colors" />
-              </button>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-20 h-20 rounded-full bg-black/30 flex items-center justify-center shadow-xl">
+                <Play size={28} className="text-white" />
+              </div>
             </div>
             <div className="absolute bottom-6 left-6 text-white">
               <p className="text-sm font-semibold text-gold uppercase tracking-widest mb-1">ICHS 2024 Highlights</p>

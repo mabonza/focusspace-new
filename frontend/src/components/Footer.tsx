@@ -83,14 +83,14 @@ export default function Footer() {
               </li>
               <li className="flex gap-3">
                 <Mail size={16} className="text-gold mt-0.5 shrink-0" />
-                <a href="mailto:info@focusspace.org" className="hover:text-gold transition-colors">
-                  info@focusspace.org
+                <a href="mailto:nyondo@mut.ac.za" className="hover:text-gold transition-colors">
+                  nyondo@mut.ac.za
                 </a>
               </li>
               <li className="flex gap-3">
                 <Phone size={16} className="text-gold mt-0.5 shrink-0" />
                 <a href="tel:+27000000000" className="hover:text-gold transition-colors">
-                  +27 (0) 00 000 0000
+                  +27(031) 907 7575
                 </a>
               </li>
             </ul>
