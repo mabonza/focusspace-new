@@ -90,7 +90,7 @@ export interface Event {
   title: string
   slug: string
   type: 'conference' | 'summit' | 'pre-conference' | 'workshop' | 'webinar'
-  status: 'upcoming' | 'past'
+  eventStatus: 'upcoming' | 'past'
   shortDescription?: string
   description?: string
   startDate: string

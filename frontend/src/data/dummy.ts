@@ -43,7 +43,7 @@ export const dummyEvents: Event[] = [
     title: 'International Conference on Health Systems Research 2025',
     slug: 'ichs-2025',
     type: 'conference',
-    status: 'upcoming',
+    eventStatus: 'upcoming',
     shortDescription:
       'Three days of evidence-based dialogue on universal health coverage, health financing, and service delivery innovations.',
     description:
@@ -59,7 +59,7 @@ export const dummyEvents: Event[] = [
     title: 'Pre-Conference Workshop: Health Economics Masterclass',
     slug: 'hec-workshop-2025',
     type: 'workshop',
-    status: 'upcoming',
+    eventStatus: 'upcoming',
     shortDescription:
       'An intensive one-day masterclass covering cost-effectiveness analysis and budget impact modelling.',
     description:
@@ -75,7 +75,7 @@ export const dummyEvents: Event[] = [
     title: 'Webinar: Emerging Infectious Diseases in Resource-Limited Settings',
     slug: 'webinar-eid-2025',
     type: 'webinar',
-    status: 'upcoming',
+    eventStatus: 'upcoming',
     shortDescription: 'A virtual panel discussion on surveillance, response readiness, and community engagement.',
     description:
       'Free to attend. Register to receive the Zoom link. Featuring panelists from WHO, MSF, and leading African universities.',
@@ -93,7 +93,7 @@ export const dummyPastEvents: Event[] = [
     title: 'Teaching with Technology Summit 2026',
     slug: 'twt-summit-2026',
     type: 'summit',
-    status: 'past',
+    eventStatus: 'past',
     shortDescription: 'Designing Learning that Works: Technology, e-Pedagogy, and the Pursuit of Student Success.',
     description:
       'A premier summit bringing together educators, technologists, and academic leaders to explore how technology and e-pedagogy can transform teaching and drive student success.',
@@ -108,7 +108,7 @@ export const dummyPastEvents: Event[] = [
     title: '2025 Focus Conference',
     slug: 'focus-conference-2025',
     type: 'conference',
-    status: 'past',
+    eventStatus: 'past',
     shortDescription: 'Shaping Global Perspectives in Higher Education: Transforming Learning Through Innovation, Digital Equity, and Global Partnerships.',
     description:
       'The 2025 Focus Conference brought together higher education leaders and innovators to explore transformative approaches to learning through innovation, digital equity, and global partnerships.',
@@ -123,7 +123,7 @@ export const dummyPastEvents: Event[] = [
     title: 'Teaching with Technology Summit 2025',
     slug: 'twt-summit-2025',
     type: 'summit',
-    status: 'past',
+    eventStatus: 'past',
     shortDescription: 'The Teaching and Learning Development Centre at Mangosuthu University of Technology invites submissions for the Teaching with Technology Summit 2025.',
     description:
       'Taking place at the Hilton Hotel in Durban, South Africa, the Teaching with Technology Summit 2025 brought together educators and researchers to advance the integration of technology in teaching and learning.',

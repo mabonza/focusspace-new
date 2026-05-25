@@ -17,7 +17,7 @@
       "enum": ["conference", "summit", "pre-conference", "workshop", "webinar"],
       "default": "conference"
     },
-    "status": {
+    "eventStatus": {
       "type": "enumeration",
       "enum": ["upcoming", "past"],
       "default": "upcoming"

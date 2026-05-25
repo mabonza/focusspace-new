@@ -75,14 +75,14 @@ export async function getConferenceBySlug(slug: string): Promise<Conference | nu
 
 export async function getUpcomingEvents(): Promise<Event[]> {
   const data = await fetchStrapi<Event[]>(
-    '/events?filters[status][$eq]=upcoming&populate[0]=image&populate[1]=bannerImage&populate[2]=conference&sort=startDate:asc&pagination[pageSize]=20'
+    '/events?filters[eventStatus][$eq]=upcoming&populate[0]=image&populate[1]=bannerImage&populate[2]=conference&sort=startDate:asc&pagination[pageSize]=20'
   )
   return data ?? dummyEvents
 }
 
 export async function getPastEvents(): Promise<Event[]> {
   const data = await fetchStrapi<Event[]>(
-    '/events?filters[status][$eq]=past&populate[0]=image&populate[1]=bannerImage&populate[2]=conference&sort=startDate:desc&pagination[pageSize]=20'
+    '/events?filters[eventStatus][$eq]=past&populate[0]=image&populate[1]=bannerImage&populate[2]=conference&sort=startDate:desc&pagination[pageSize]=20'
   )
   return data ?? dummyPastEvents
 }

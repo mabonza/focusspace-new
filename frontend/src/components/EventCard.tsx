@@ -21,7 +21,7 @@ interface EventCardProps {
 }
 
 export default function EventCard({ event, index = 0 }: EventCardProps) {
-  const isPast = event.status === 'past'
+  const isPast = event.eventStatus === 'past'
   const imageUrl = getImageUrl(event.image, `https://picsum.photos/seed/${event.id + 10}/800/400`)
 
   return (
