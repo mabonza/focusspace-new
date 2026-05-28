@@ -26,7 +26,7 @@ export default function PastEvents() {
         title="Past Events"
         subtitle="Event Archive"
         description="Explore our archive of past conferences, summits, workshops, and webinars. Access proceedings, publications, and highlights."
-        backgroundImage="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1800&auto=format&fit=crop"
+        backgroundImage="/slide-4-copy-scaled.webp"
         size="small"
       />
       <section className="section-padding bg-white">

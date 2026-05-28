@@ -29,7 +29,7 @@ export default function Contact() {
         title="Contact Us"
         subtitle="Get In Touch"
         description="Reach out for conference inquiries, sponsorship opportunities, abstract submissions, or general questions."
-        backgroundImage="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1800&auto=format&fit=crop"
+        backgroundImage="/DSC_0631-copy-scaled.webp"
         size="small"
       />
 

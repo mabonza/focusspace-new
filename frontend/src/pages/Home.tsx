@@ -138,7 +138,7 @@ export default function Home() {
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
               <div className="aspect-[4/3] rounded-sm overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop"
+                  src="/Option-1-for-backend-cover-copy-scaled.webp"
                   alt="Conference delegates"
                   loading="lazy"
                   className="w-full h-full object-cover"
