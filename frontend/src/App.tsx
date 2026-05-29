@@ -13,6 +13,7 @@ import Speakers from './pages/Speakers'
 import Programme from './pages/Programme'
 import Sponsors from './pages/Sponsors'
 import Publications from './pages/Publications'
+import BoardOfDirectors from './pages/BoardOfDirectors'
 import Contact from './pages/Contact'
 import CertificateVerify from './pages/CertificateVerify'
 
@@ -178,6 +179,7 @@ export default function App() {
           <Route path="/programme" element={<Programme />} />
           <Route path="/sponsors" element={<Sponsors />} />
           <Route path="/publications" element={<Publications />} />
+          <Route path="/board" element={<BoardOfDirectors />} />
           <Route path="/contact" element={<Contact />} />
         </Route>
       </Routes>
